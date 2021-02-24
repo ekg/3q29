@@ -22,10 +22,17 @@ And merge the regions in it to make a single BED record per matching contig:
 bedtools merge -d 1000000 -i HPRCy1.3q29.bed >HPRCy1.3q29.merge.bed
 ```
 
+Reordering them to suit:
+
+```
+( tail -2 HPRCy1.3q29.merge.bed; grep -v 'chm13#chr3' HPRCy1.3q29.merge.bed| grep -v 'grch38#chr3') >HPRCy1.3q29.merge.refs.first.bed
+```
+
 Finally, extracting the FASTA file for the regions:
 
 ```
-bedtools getfasta -fi /lizardfs/erikg/HPRC/year1/parts/chr3.pan+refs.fa -bed HPRCy1.3q29.merge.bed >HPRCy1.3q29.fa
+bedtools getfasta -fi /lizardfs/erikg/HPRC/year1/parts/chr3.pan+refs.fa -bed HPRCy1.3q29.merge.refs.first.bed >HPRCy1.3q29.fa
+samtools faidx HPRCy1.3q29.fa
 ```
 
 Then, build a graph.
